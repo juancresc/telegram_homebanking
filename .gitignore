@@ -1,0 +1,8 @@
+venv*
+geckodriver*
+.vscode*
+.idea*
+db.sqlite
+data.json
+__pycache__
+*.pyc
