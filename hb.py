@@ -1,15 +1,24 @@
 
-from selenium.webdriver import Firefox
-from selenium.webdriver.firefox.options import Options
+from selenium import webdriver
 import time
 import sys
 class HB:
-    def __init__(self):
+    def __init__(self, chrome=False):
         print("loading browser")
-        opts = Options()
-        opts.headless = True
-        self.browser = Firefox(options=opts)
-    
+        if chrome:
+            from selenium.webdriver.chrome.options import Options
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            self.browser = webdriver.Chrome(chrome_options=chrome_options)
+        else:
+            from selenium.webdriver import Firefox
+            from selenium.webdriver.firefox.options import Options
+            opts = Options()
+            opts.headless = True
+            self.browser = Firefox(options=opts)
+
+
+
     def get_saldo(self, username, password):
         browser = self.browser
         print("loading website")
@@ -23,6 +32,7 @@ class HB:
             print("Should be 1 login button")
             exit
         button_ingresar = button_ingresar_class[0]
+        
         button_ingresar.click()
 
         #wait
@@ -48,17 +58,21 @@ class HB:
         time.sleep(3)
         error_msg = "Su usuario ya se encuentra conectado al Home Banking"
         if error_msg in browser.page_source:
-            print("ya está logueado")
-            return "ya está logueado"
+            print("ya está logueado,reintente más tarde")
+            return "ya está logueado,reintente más tarde"
             sys.exit()
-
-        tr_saldo_class = browser.find_elements_by_class_name('jqgrow')
-        if not tr_saldo_class:
+        tr_saldo = browser.find_element_by_css_selector('.jqgrow')
+        if not tr_saldo:
             print("no saldo table")
-            return "no saldo table"
             btn_salir = browser.find_element_by_id('salir')
-            btn_salir.click()
-            sys.exit()
+            browser.execute_script("arguments[0].click();", btn_salir)
+            return "no saldo table"
+        
+        #click tr_saldo
+        #wait 2
+        #click ultimosMovimientos
+        #wait 5
+        #get all .jqgrow
 
         tipo_caja = browser.find_element_by_css_selector('.jqgrow td:nth-of-type(1)').get_attribute('innerHTML')
         print(tipo_caja)
@@ -77,7 +91,7 @@ class HB:
         #tr.click()
 
         btn_salir = browser.find_element_by_id('salir')
-        btn_salir.click()
+        browser.execute_script("arguments[0].click();", btn_salir)
         print("exit")
         return saldo
 
