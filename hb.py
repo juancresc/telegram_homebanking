@@ -3,6 +3,8 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 import time
 import sys
+
+
 class HB:
     def __init__(self):
         print("loading browser")

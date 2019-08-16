@@ -2,7 +2,7 @@
 This is just a personal sunday project. 
 
 ## What?
-A telegram bot to retrieve data from many REDLINK accounts from Banco de la Nación Argentina.
+A telegram bot to retrieve data from many Redlinks accounts from Banco de la Nación Argentina and send it to you over telegram.
 
 
 data.json should be like:
