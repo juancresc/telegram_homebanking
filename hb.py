@@ -22,7 +22,7 @@ class HB:
     def get_saldo(self, username, password):
         browser = self.browser
         print("loading website")
-        browser.get('https://hb.redlink.com.ar/bna/login.htm')
+        browser.get('https://hb.redlink.com.ar/bna/home.htm')
         #enter username
         print("login in")
         input_username = browser.find_element_by_id('usuario')
@@ -32,8 +32,8 @@ class HB:
             print("Should be 1 login button")
             exit
         button_ingresar = button_ingresar_class[0]
-        
-        button_ingresar.click()
+        browser.execute_script("arguments[0].click();", button_ingresar)
+        #button_ingresar.click()
 
         #wait
         time.sleep(3)
